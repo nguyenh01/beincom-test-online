@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "author": "Nguyen Duong",
+  "license": "ISC",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "nodemon": "3.1.7"
+  },
+  "devDependencies": {
+    "body-parser": "1.20.3",
+    "json-server": "0.17.4",
+    "jsonwebtoken": "9.0.2"
+  }
+}
