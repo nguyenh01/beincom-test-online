@@ -1,9 +1,11 @@
 {
-  "name": "server",
+  "name": "@beincom-online-test/json-server",
   "version": "1.0.0",
   "type": "module",
   "main": "index.js",
-  "author": "Nguyen Duong",
+  "author": {
+    "name": "Nguyen Duong"
+  },
   "license": "ISC",
   "scripts": {
     "dev": "nodemon server.js"

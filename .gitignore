@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/src/fe/node_modules
+/src/json-server/node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -10,7 +12,7 @@
 /coverage
 
 # next.js
-/.next/
+/src/fe/.next/
 /out/
 
 # production
@@ -37,6 +39,3 @@ next-env.d.ts
 
 # idea
 .idea
-
-# json-server
-/json-server/node_modules
