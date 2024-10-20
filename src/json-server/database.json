@@ -9,6 +9,7 @@
       "title": "The Future of Blockchain Technology",
       "content": "Blockchain technology is evolving rapidly and has the potential to revolutionize various industries including finance, healthcare, and supply chain management.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-01T09:00:00Z"
     },
     {
@@ -16,6 +17,7 @@
       "title": "Top 10 JavaScript Frameworks to Learn in 2024",
       "content": "JavaScript frameworks continue to dominate the web development landscape. In this article, we rank the top 10 JavaScript frameworks you should consider learning in 2024.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-02T12:30:00Z"
     },
     {
@@ -23,6 +25,7 @@
       "title": "How to Get Started with Machine Learning",
       "content": "Machine learning is one of the most exciting fields in technology today. This guide will help you understand the basics and start building your own models.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-03T14:15:00Z"
     },
     {
@@ -30,6 +33,7 @@
       "title": "A Comprehensive Guide to Web3 Development",
       "content": "Web3 represents the next evolution of the web, focusing on decentralization and user empowerment. Learn about the tools, technologies, and platforms for Web3.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-04T16:45:00Z"
     },
     {
@@ -37,6 +41,7 @@
       "title": "Understanding AI Ethics and Its Impact",
       "content": "As AI continues to grow in influence, ethical considerations become more important. This post discusses the major ethical issues in AI.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-05T08:00:00Z"
     },
     {
@@ -44,6 +49,7 @@
       "title": "The Rise of Electric Vehicles in 2024",
       "content": "EVs are becoming mainstream, with advancements in battery technology. We explore the latest trends in the EV industry.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-06T10:20:00Z"
     },
     {
@@ -51,6 +57,7 @@
       "title": "How to Build a REST API with Node.js",
       "content": "REST APIs are a crucial part of modern web development. This tutorial walks you through building a REST API using Node.js.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-07T11:10:00Z"
     },
     {
@@ -58,6 +65,7 @@
       "title": "Introduction to Quantum Computing",
       "content": "Quantum computing is poised to transform the computing industry. Learn the basics and the challenges it faces in the coming years.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-08T13:50:00Z"
     },
     {
@@ -65,6 +73,7 @@
       "title": "Top Cloud Platforms for Developers in 2024",
       "content": "This post compares the top cloud platforms for developers, highlighting their strengths and weaknesses.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-09T15:00:00Z"
     },
     {
@@ -72,6 +81,7 @@
       "title": "The Benefits of Continuous Integration and Delivery (CI/CD)",
       "content": "CI/CD practices help developers deploy software more efficiently. This guide explores CI/CD and provides a setup guide.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-10T18:00:00Z"
     },
     {
@@ -79,6 +89,7 @@
       "title": "Exploring Artificial Intelligence in Healthcare",
       "content": "AI in healthcare has the potential to improve diagnostics and patient care. We discuss the latest innovations and challenges.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-11T09:00:00Z"
     },
     {
@@ -86,6 +97,7 @@
       "title": "Frontend Development Trends for 2024",
       "content": "Stay up-to-date with the latest trends in frontend development, including frameworks, tools, and best practices.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-12T12:00:00Z"
     },
     {
@@ -93,6 +105,7 @@
       "title": "The Impact of Cloud Computing on Business",
       "content": "Cloud computing has transformed businesses of all sizes. We explore how companies are leveraging cloud technologies.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-13T14:00:00Z"
     },
     {
@@ -100,6 +113,7 @@
       "title": "Learning DevOps: Tools and Techniques",
       "content": "DevOps practices are essential for modern software development. This post covers the key tools and techniques used in DevOps.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-14T16:00:00Z"
     },
     {
@@ -107,6 +121,7 @@
       "title": "Building Scalable Microservices Architecture",
       "content": "Microservices architecture allows for scaling applications effectively. Learn how to build and manage microservices.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-15T18:00:00Z"
     },
     {
@@ -114,6 +129,7 @@
       "title": "The Role of UX/UI Design in Product Development",
       "content": "User experience and interface design are critical for successful products. This post highlights key principles and trends.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-16T10:00:00Z"
     },
     {
@@ -121,6 +137,7 @@
       "title": "Top Backend Frameworks to Watch in 2024",
       "content": "Backend development continues to evolve with new frameworks emerging. Discover the top frameworks for 2024.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-17T12:00:00Z"
     },
     {
@@ -128,6 +145,7 @@
       "title": "The Basics of Agile Methodology",
       "content": "Agile methodology is widely adopted in software development. This guide explains the basics and how to implement Agile.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-18T14:00:00Z"
     },
     {
@@ -135,6 +153,7 @@
       "title": "Exploring the Internet of Things (IoT)",
       "content": "IoT technology is expanding rapidly. We cover the basics of IoT and its applications in various industries.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-19T16:00:00Z"
     },
     {
@@ -142,7 +161,8 @@
       "title": "Data Privacy and Security in 2024",
       "content": "Data privacy is a growing concern. Learn about the latest trends and best practices for securing sensitive information.",
       "userId": 2,
-      "createdAt": "2024-10-20T18:00:00Z"
+      "email": "nguyen2@gmail.com",
+      "createdAt": "2024-10-19T17:00:00Z"
     }
   ],
   "comments": [
@@ -151,6 +171,7 @@
       "postId": 1,
       "content": "Great insights! Blockchain will definitely change the industry.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-01T10:00:00Z"
     },
     {
@@ -158,6 +179,7 @@
       "postId": 2,
       "content": "Thanks for the list. React has been my go-to, but I'll try others!",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-02T13:00:00Z"
     },
     {
@@ -165,6 +187,7 @@
       "postId": 3,
       "content": "Helpful guide! Machine learning feels more accessible now.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-03T15:30:00Z"
     },
     {
@@ -172,6 +195,7 @@
       "postId": 4,
       "content": "Web3 development is intriguing. More content like this, please!",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-04T17:00:00Z"
     },
     {
@@ -179,6 +203,7 @@
       "postId": 5,
       "content": "Ethical AI is so important. Thanks for raising awareness.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-05T09:30:00Z"
     },
     {
@@ -186,6 +211,7 @@
       "postId": 6,
       "content": "Electric vehicles are the future, no doubt!",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-06T11:00:00Z"
     },
     {
@@ -193,6 +219,7 @@
       "postId": 7,
       "content": "Can you provide a follow-up on securing APIs?",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-07T12:15:00Z"
     },
     {
@@ -200,6 +227,7 @@
       "postId": 8,
       "content": "Quantum computing sounds fascinating. More resources for beginners, please!",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-08T14:30:00Z"
     },
     {
@@ -207,6 +235,7 @@
       "postId": 9,
       "content": "Cloud platforms are essential. This comparison is helpful.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-09T16:00:00Z"
     },
     {
@@ -214,6 +243,7 @@
       "postId": 10,
       "content": "CI/CD is crucial. Thanks for the detailed guide.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-10T19:30:00Z"
     },
     {
@@ -221,6 +251,7 @@
       "postId": 11,
       "content": "AI in healthcare is groundbreaking. Can't wait to see its impact.",
       "userId": 2,
+      "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-11T10:30:00Z"
     },
     {
@@ -228,6 +259,7 @@
       "postId": 12,
       "content": "Thanks for the trends update! I'm focusing on frontend in 2024.",
       "userId": 1,
+      "email": "nguyen@gmail.com",
       "createdAt": "2024-10-12T13:00:00Z"
     }
   ]

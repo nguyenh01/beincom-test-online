@@ -2,6 +2,7 @@ import fs from "fs";
 import bodyParser from "body-parser";
 import jsonServer from "json-server";
 import jwt from "jsonwebtoken";
+import cors from "cors";
 import {
   DB_PATH_FILE,
   ERROR_MSG,
@@ -34,6 +35,7 @@ const {
   POST_SUCCESS,
   COMMENT_NOT_FOUND,
   COMMENT_SUCCESS,
+  LOGOUT_SUCCESS,
 } = ERROR_MSG;
 const { DEFAULT, DEFAULT_PAGE, DEFAULT_LIMIT } = PAGINATION;
 
@@ -43,6 +45,7 @@ const database = JSON.parse(fs.readFileSync(DB_PATH_FILE, UTF_8));
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.use(jsonServer.defaults());
+server.use(cors({ origin: "http://localhost:3000" }));
 
 const createToken = (payload) =>
   jwt.sign(payload, SECRET_KEY, { expiresIn: EXPIRES_IN });
@@ -56,6 +59,8 @@ const verifyToken = (token) => {
   }
 };
 
+let invalidatedTokens = [];
+
 const authenticate = (request, response, next) => {
   const authHeader = request.headers.authorization;
   const status = UNAUTHORIZED;
@@ -68,7 +73,7 @@ const authenticate = (request, response, next) => {
   const token = authHeader.split(" ")[1];
   const decoded = verifyToken(token);
 
-  if (!decoded) {
+  if (!decoded || invalidatedTokens.includes(token)) {
     response.status(status).json({ status, message: INVALID_TOKEN });
     return;
   }
@@ -128,10 +133,23 @@ server.post("/api/login", (request, response) => {
   response.status(OK).json({ accessToken, refreshToken });
 });
 
+server.post("/api/logout", authenticate, (request, response) => {
+  const { refreshToken } = request.body;
+
+  const decoded = verifyToken(refreshToken);
+  if (decoded && decoded.type === REFRESH_TOKEN_TYPE) {
+    invalidatedTokens.push(refreshToken);
+    response.status(OK).json({ message: LOGOUT_SUCCESS });
+  } else {
+    response.status(UNAUTHORIZED).json({ message: INVALID_REFRESH_TOKEN });
+  }
+});
+
 server.post("/api/refresh-token", (request, response) => {
   const { refreshToken } = request.body;
 
   const decoded = verifyToken(refreshToken);
+  console.log("decoded", decoded);
   if (decoded && decoded.type === REFRESH_TOKEN_TYPE) {
     const { email, password } = decoded;
     const accessToken = createToken({ email, password });
@@ -153,11 +171,14 @@ server.get("/api/posts", authenticate, (request, response) => {
     }
 
     const posts = JSON.parse(data.toString()).posts;
+    const sortedPosts = posts.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+    );
     const startIndex = (pageNumber - ONE) * limitNumber;
     const endIndex = startIndex + limitNumber;
-    const paginatedPosts = posts.slice(startIndex, endIndex);
+    const paginatedPosts = sortedPosts.slice(startIndex, endIndex);
 
-    const totalPosts = posts.length;
+    const totalPosts = sortedPosts.length;
     const totalPages = Math.ceil(totalPosts / limitNumber);
 
     response.status(OK).json({
@@ -182,6 +203,8 @@ server.post("/api/posts", authenticate, (request, response) => {
       title,
       content,
       userId: request.user.id,
+      email: request.user.email,
+      createdAt: new Date().toISOString(),
     };
     posts.push(newPost);
     fs.writeFile(DB_PATH_FILE, JSON.stringify(posts), (error) => {
@@ -238,7 +261,10 @@ server.get("/api/posts/:postId/comments", (request, response) => {
     }
 
     const comments = JSON.parse(data.toString()).comments;
-    const postComments = comments.filter(
+    const sortedPosts = comments.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+    );
+    const postComments = sortedPosts.filter(
       (comment) => comment.postId === parseInt(postId, TEN),
     );
 

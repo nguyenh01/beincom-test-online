@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "body-parser": "1.20.3",
+    "cors": "^2.8.5",
     "json-server": "0.17.4",
     "jsonwebtoken": "9.0.2"
   }

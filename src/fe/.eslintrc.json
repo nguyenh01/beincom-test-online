@@ -16,6 +16,7 @@
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
     "prettier"
   ],
   "globals": {
@@ -34,7 +35,7 @@
       "version": "detect"
     }
   },
-  "plugins": ["react", "react-refresh"],
+  "plugins": ["react", "react-refresh", "@tanstack/query"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
@@ -47,6 +48,11 @@
     ],
     "@typescript-eslint/no-var-requires": "off",
     "react/no-unescaped-entities": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    // React Query
+    "@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/no-deprecated-options": "error",
+    "@tanstack/query/prefer-query-object-syntax": "error",
+    "@tanstack/query/stable-query-client": "error"
   }
 }

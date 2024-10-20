@@ -12,7 +12,7 @@ export const TEN = 10;
 
 export const JWT = {
   SECRET_KEY: "nguyen.dh",
-  EXPIRES_IN: "1h",
+  EXPIRES_IN: "2h",
   REFRESH_TOKEN_TYPE: "refresh",
 };
 
@@ -35,6 +35,7 @@ export const ERROR_MSG = {
   POST_SUCCESS: "Post updated successfully",
   COMMENT_NOT_FOUND: "Comment not found.",
   COMMENT_SUCCESS: "Comment updated successfully",
+  LOGOUT_SUCCESS: "Logged out successfully",
 };
 
 export const PAGINATION = {
