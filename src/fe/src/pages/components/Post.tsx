@@ -1,8 +1,8 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import BlockContainer from "@src/pages/components/Shared/BlockContainer";
 import { CommentOutlined } from "@ant-design/icons";
 import { Button, Divider, Input, Spin, Typography } from "antd";
-import { Post as IPost } from "@src/types/api";
+import { CreateCommentRequest, Post as IPost } from "@src/types/api";
 import { formatDate } from "@src/utils/common";
 import { useQuery } from "@tanstack/react-query";
 import { getComment } from "@src/services/comment.service";
@@ -12,14 +12,30 @@ const { Title, Text } = Typography;
 
 interface PostProps {
   post: IPost;
+  onCommentPost: (postId: number, payload: CreateCommentRequest) => void;
+  isCommentLoading: boolean;
 }
 
-const Post: FunctionComponent<PostProps> = ({ post }) => {
+const Post: FunctionComponent<PostProps> = ({
+  post,
+  onCommentPost,
+  isCommentLoading,
+}) => {
   const { id } = post;
-  const { data: comments, isFetching } = useQuery({
+  const {
+    data: comments,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: ["post", id],
     queryFn: () => getComment(id),
   });
+
+  const [content, setContent] = useState("");
+
+  const handleCommentClick = () => {
+    onCommentPost(id, { content });
+  };
 
   return (
     <BlockContainer>
@@ -84,11 +100,17 @@ const Post: FunctionComponent<PostProps> = ({ post }) => {
           ))}
         </>
       )}
-      <TextArea showCount />
+      <TextArea
+        showCount
+        value={content}
+        onChange={(event) => setContent(event.target.value)}
+      />
       <Button
         className="w-full mt-6"
         size="large"
         type="primary"
+        loading={isCommentLoading}
+        onClick={handleCommentClick}
       >
         Comments
       </Button>

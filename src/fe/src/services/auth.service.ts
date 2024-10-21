@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_URLS } from "@src/constants/api";
 import {
+  GetUserInfo,
   LoginPayload,
   LoginResponse,
   LogoutResponse,
@@ -69,6 +70,24 @@ export const refreshToken = async () => {
     Cookies.set(ACCESS_TOKEN, accessToken, { expires: EXPIRES_ONE });
 
     return accessToken;
+  } catch (error) {
+    throw (error as any).response.data.message;
+  }
+};
+
+export const userInfo = async () => {
+  const accessToken = Cookies.get(ACCESS_TOKEN);
+
+  try {
+    const { data } = await axiosClient.post<GetUserInfo>(
+      API_URLS.GET_USER_INFO,
+      {
+        accessToken,
+      },
+    );
+
+    const { email } = data;
+    return email;
   } catch (error) {
     throw (error as any).response.data.message;
   }

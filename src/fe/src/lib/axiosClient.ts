@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { ACCESS_TOKEN } from "@src/constants/cookies";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "@src/constants/cookies";
 import { API_ENDPOINT } from "@src/constants/api";
 import { refreshToken } from "@src/services/auth.service";
 
@@ -34,12 +34,25 @@ axiosClient.interceptors.response.use(
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
-      const newAccessToken = await refreshToken();
+      let retries = 3; // Number of retries
 
-      if (newAccessToken && originalRequest.headers) {
-        originalRequest.headers[AUTHORIZATION_TEXT] = getToken(newAccessToken);
-        return axiosClient(originalRequest);
+      while (retries > 0) {
+        try {
+          const newAccessToken = await refreshToken();
+
+          if (newAccessToken && originalRequest.headers) {
+            originalRequest.headers[AUTHORIZATION_TEXT] =
+              getToken(newAccessToken);
+            return axiosClient(originalRequest);
+          }
+        } catch (refreshError) {
+          retries -= 1;
+        }
       }
+
+      Cookies.remove(ACCESS_TOKEN);
+      Cookies.remove(REFRESH_TOKEN);
+      window.location.href = "/login";
     }
 
     return Promise.reject(new Error(error));

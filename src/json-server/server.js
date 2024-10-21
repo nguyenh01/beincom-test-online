@@ -149,7 +149,6 @@ server.post("/api/refresh-token", (request, response) => {
   const { refreshToken } = request.body;
 
   const decoded = verifyToken(refreshToken);
-  console.log("decoded", decoded);
   if (decoded && decoded.type === REFRESH_TOKEN_TYPE) {
     const { email, password } = decoded;
     const accessToken = createToken({ email, password });
@@ -157,6 +156,17 @@ server.post("/api/refresh-token", (request, response) => {
     return;
   }
   response.status(UNAUTHORIZED).json({ message: INVALID_REFRESH_TOKEN });
+});
+
+server.post("/api/user-info", authenticate, (request, response) => {
+  const { accessToken } = request.body;
+  const decoded = verifyToken(accessToken);
+  if (decoded) {
+    const { email } = decoded;
+    response.status(OK).json({ email });
+    return;
+  }
+  response.status(UNAUTHORIZED).json({ message: INVALID_TOKEN });
 });
 
 server.get("/api/posts", authenticate, (request, response) => {
@@ -171,14 +181,14 @@ server.get("/api/posts", authenticate, (request, response) => {
     }
 
     const posts = JSON.parse(data.toString()).posts;
-    const sortedPosts = posts.sort(
+    const sortedPosts = posts?.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
     const startIndex = (pageNumber - ONE) * limitNumber;
     const endIndex = startIndex + limitNumber;
-    const paginatedPosts = sortedPosts.slice(startIndex, endIndex);
+    const paginatedPosts = sortedPosts?.slice(startIndex, endIndex);
 
-    const totalPosts = sortedPosts.length;
+    const totalPosts = sortedPosts?.length;
     const totalPages = Math.ceil(totalPosts / limitNumber);
 
     response.status(OK).json({
@@ -197,7 +207,10 @@ server.post("/api/posts", authenticate, (request, response) => {
       response.status(INTERNAL_SERVER_ERROR).json({ message: error });
       return;
     }
-    const posts = JSON.parse(data.toString()).posts;
+
+    const database = JSON.parse(data.toString());
+    const { posts, users, comments } = database;
+
     const newPost = {
       id: posts.length > ZERO ? posts[posts.length - ONE].id + ONE : ONE,
       title,
@@ -207,13 +220,22 @@ server.post("/api/posts", authenticate, (request, response) => {
       createdAt: new Date().toISOString(),
     };
     posts.push(newPost);
-    fs.writeFile(DB_PATH_FILE, JSON.stringify(posts), (error) => {
-      if (error) {
-        response.status(INTERNAL_SERVER_ERROR).json({ message: error });
-        return;
-      }
-      response.status(CREATED).json(newPost);
-    });
+    const updatedData = {
+      users,
+      posts,
+      comments,
+    };
+    fs.writeFile(
+      DB_PATH_FILE,
+      JSON.stringify(updatedData, null, 2),
+      (error) => {
+        if (error) {
+          response.status(INTERNAL_SERVER_ERROR).json({ message: error });
+          return;
+        }
+        response.status(CREATED).json(newPost);
+      },
+    );
   });
 });
 
@@ -227,7 +249,8 @@ server.put("/api/posts/:id", authenticate, (request, response) => {
       return response.status(INTERNAL_SERVER_ERROR).json({ message: error });
     }
 
-    const posts = JSON.parse(data.toString()).posts;
+    const database = JSON.parse(data.toString());
+    const { posts, users, comments } = database;
     const postIndex = posts.findIndex((post) => post.id === postId);
 
     if (postIndex === -ONE) {
@@ -241,13 +264,24 @@ server.put("/api/posts/:id", authenticate, (request, response) => {
     posts[postIndex].title = title || posts[postIndex].title;
     posts[postIndex].content = content || posts[postIndex].content;
 
-    fs.writeFile("./database.json", JSON.stringify({ posts }), (error) => {
-      if (error) {
-        return response.status(INTERNAL_SERVER_ERROR).json({ message: error });
-      }
+    const updatedData = {
+      users,
+      posts,
+      comments,
+    };
+    fs.writeFile(
+      "./database.json",
+      JSON.stringify(updatedData, null, 2),
+      (error) => {
+        if (error) {
+          return response
+            .status(INTERNAL_SERVER_ERROR)
+            .json({ message: error });
+        }
 
-      response.status(OK).json({ message: POST_SUCCESS });
-    });
+        response.status(OK).json({ message: POST_SUCCESS });
+      },
+    );
   });
 });
 
@@ -261,10 +295,10 @@ server.get("/api/posts/:postId/comments", (request, response) => {
     }
 
     const comments = JSON.parse(data.toString()).comments;
-    const sortedPosts = comments.sort(
+    const sortedPosts = comments?.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
-    const postComments = sortedPosts.filter(
+    const postComments = sortedPosts?.filter(
       (comment) => comment.postId === parseInt(postId, TEN),
     );
 
@@ -285,7 +319,8 @@ server.post(
         return;
       }
 
-      const comments = JSON.parse(data.toString()).comments;
+      const database = JSON.parse(data.toString());
+      const { posts, users, comments } = database;
       const newComment = {
         id:
           comments.length > ZERO
@@ -294,18 +329,27 @@ server.post(
         postId: parseInt(postId, TEN),
         content,
         userId: request.user.id,
+        email: request.user.email,
         createdAt: new Date().toISOString(),
       };
-
       comments.push(newComment);
 
-      fs.writeFile("./database.json", JSON.stringify(comments), (error) => {
-        if (error) {
-          response.status(INTERNAL_SERVER_ERROR).json({ message: error });
-          return;
-        }
-        response.status(CREATED).json(newComment);
-      });
+      const updatedData = {
+        users,
+        posts,
+        comments,
+      };
+      fs.writeFile(
+        "./database.json",
+        JSON.stringify(updatedData, null, 2),
+        (error) => {
+          if (error) {
+            response.status(INTERNAL_SERVER_ERROR).json({ message: error });
+            return;
+          }
+          response.status(CREATED).json(newComment);
+        },
+      );
     });
   },
 );
@@ -320,7 +364,8 @@ server.put("/api/comments/:id", (request, response) => {
       return response.status(INTERNAL_SERVER_ERROR).json({ message: error });
     }
 
-    const comments = JSON.parse(data.toString()).comments;
+    const database = JSON.parse(data.toString());
+    const { posts, users, comments } = database;
     const commentIndex = comments.findIndex(
       (comment) => comment.id === commentId,
     );
@@ -335,13 +380,24 @@ server.put("/api/comments/:id", (request, response) => {
 
     comments[commentIndex].content = content || comments[commentIndex].content;
 
-    fs.writeFile("./database.json", JSON.stringify({ comments }), (error) => {
-      if (error) {
-        return response.status(INTERNAL_SERVER_ERROR).json({ message: error });
-      }
+    const updatedData = {
+      users,
+      posts,
+      comments,
+    };
+    fs.writeFile(
+      "./database.json",
+      JSON.stringify(updatedData, null, 2),
+      (error) => {
+        if (error) {
+          return response
+            .status(INTERNAL_SERVER_ERROR)
+            .json({ message: error });
+        }
 
-      response.status(OK).json({ message: COMMENT_SUCCESS });
-    });
+        response.status(OK).json({ message: COMMENT_SUCCESS });
+      },
+    );
   });
 });
 

@@ -1,7 +1,15 @@
 {
   "users": [
-    { "id": 1, "email": "nguyen@gmail.com", "password": "123456" },
-    { "id": 2, "email": "nguyen2@gmail.com", "password": "1234567" }
+    {
+      "id": 1,
+      "email": "nguyen@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": 2,
+      "email": "nguyen2@gmail.com",
+      "password": "1234567"
+    }
   ],
   "posts": [
     {
@@ -163,6 +171,20 @@
       "userId": 2,
       "email": "nguyen2@gmail.com",
       "createdAt": "2024-10-19T17:00:00Z"
+    },
+    {
+      "id": 21,
+      "title": "Test 1",
+      "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "email": "nguyen@gmail.com",
+      "createdAt": "2024-10-20T18:10:06.857Z"
+    },
+    {
+      "id": 22,
+      "title": "Test 2",
+      "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "email": "nguyen@gmail.com",
+      "createdAt": "2024-10-20T18:10:33.172Z"
     }
   ],
   "comments": [
@@ -261,6 +283,13 @@
       "userId": 1,
       "email": "nguyen@gmail.com",
       "createdAt": "2024-10-12T13:00:00Z"
+    },
+    {
+      "id": 13,
+      "postId": 22,
+      "content": "Test 1",
+      "email": "nguyen@gmail.com",
+      "createdAt": "2024-10-20T18:51:43.040Z"
     }
   ]
 }

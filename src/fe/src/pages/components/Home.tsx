@@ -1,28 +1,94 @@
 "use client";
 
-import { Fragment, FunctionComponent } from "react";
-import { Button, Spin, Typography } from "antd";
+import { Fragment, FunctionComponent, useCallback, useRef } from "react";
+import { Button, notification, Spin, Typography } from "antd";
 import BlockContainer from "@src/pages/components/Shared/BlockContainer";
 import PostForm from "@src/pages/components/PostForm";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getPost } from "@src/services/post.service";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { createPost, getPost } from "@src/services/post.service";
 import Post from "@src/pages/components/Post";
 import { logout } from "@src/services/auth.service";
 import { useRouter } from "next/navigation";
 import { REDIRECT_PATH } from "@src/constants/redirection";
+import { CreateCommentRequest, CreatePostRequest } from "@src/types/api";
+import { createComment } from "@src/services/comment.service";
 
 const { Title } = Typography;
 
-const PostHome: FunctionComponent = () => {
-  const router = useRouter();
+interface PostHome {
+  email: string;
+}
 
-  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["posts", { limit: 5 }],
-      queryFn: getPost,
-      getNextPageParam: ({ totalPages, currentPage }) =>
-        totalPages !== currentPage ? currentPage + 1 : undefined,
-    });
+const PostHome: FunctionComponent<PostHome> = ({ email }) => {
+  const router = useRouter();
+  const postRef = useRef<HTMLDivElement>();
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    refetch: refetchPostList,
+  } = useInfiniteQuery({
+    queryKey: ["posts", { limit: 5 }],
+    queryFn: getPost,
+    getNextPageParam: ({ totalPages, currentPage }) =>
+      totalPages !== currentPage ? currentPage + 1 : undefined,
+  });
+
+  const { mutate: mutatePost, isLoading: isPostLoading } = useMutation({
+    mutationKey: ["createPost"],
+    mutationFn: createPost,
+    onSuccess: () => {
+      notification.success({
+        message: "Success",
+        description: "Create Post Successfully",
+      });
+      refetchPostList();
+    },
+    onError: (error) => {
+      notification.error({
+        message: "Error",
+        description: error as string,
+      });
+    },
+  });
+
+  const { mutate: mutateComment, isLoading: isCommentLoading } = useMutation({
+    mutationKey: ["createComment"],
+    mutationFn: ({
+      postId,
+      payload,
+    }: {
+      postId: number;
+      payload: CreateCommentRequest;
+    }) => createComment(postId, payload),
+    onSuccess: () => {
+      notification.success({
+        message: "Success",
+        description: "Create Comment Successfully",
+      });
+      refetchPostList();
+    },
+    onError: (error) => {
+      notification.error({
+        message: "Error",
+        description: error as string,
+      });
+    },
+  });
+
+  const handlePostCreate = useCallback((payload: CreatePostRequest) => {
+    mutatePost(payload);
+  }, []);
+
+  const handleCommentCreate = useCallback(
+    (postId: number, payload: CreateCommentRequest) => {
+      mutateComment({ postId, payload });
+    },
+    [],
+  );
 
   const handleLogoutClick = async () => {
     await logout();
@@ -34,10 +100,10 @@ const PostHome: FunctionComponent = () => {
       <BlockContainer>
         <div className="flex items-center justify-between mb-3">
           <Title
-            level={3}
+            level={4}
             className="text-gray-800m !mb-0"
           >
-            POST
+            {email}
           </Title>
           <Button
             type="primary"
@@ -48,13 +114,18 @@ const PostHome: FunctionComponent = () => {
         </div>
         <p className="text-gray-700 mt-2"> Web Developer</p>
       </BlockContainer>
-      <PostForm />
+      <PostForm
+        onCreatePost={handlePostCreate}
+        isPostLoading={isPostLoading}
+      />
       {data?.pages?.map((posts, i) => (
         <Fragment key={i}>
           {posts.posts.map((post) => (
             <Post
               key={post.id}
               post={post}
+              onCommentPost={handleCommentCreate}
+              isCommentLoading={isCommentLoading}
             />
           ))}
         </Fragment>
@@ -69,11 +140,7 @@ const PostHome: FunctionComponent = () => {
         disabled={!hasNextPage || isFetchingNextPage}
         onClick={() => fetchNextPage()}
       >
-        {isFetchingNextPage
-          ? "Loading more..."
-          : hasNextPage
-            ? "Load More"
-            : "Nothing more to load"}
+        {hasNextPage ? "Load More" : "Nothing more to load"}
       </Button>
     </div>
   );

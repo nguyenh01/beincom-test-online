@@ -20,6 +20,10 @@ export interface RefreshTokenResponse {
   accessToken: string;
 }
 
+export interface GetUserInfo {
+  email: string;
+}
+
 export interface GetPostParams {
   limit?: number;
   page?: number;
@@ -48,4 +52,13 @@ export interface GetCommentResponse {
   userId: number;
   email: string;
   createdAt: string;
+}
+
+export interface CreatePostRequest {
+  title: string;
+  content: string;
+}
+
+export interface CreateCommentRequest {
+  content: string;
 }

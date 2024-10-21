@@ -20,6 +20,7 @@ const Login: FunctionComponent = () => {
   const router = useRouter();
 
   const { mutate: mutateLogin } = useMutation({
+    mutationKey: ["login"],
     mutationFn: login,
     onSuccess: () => {
       router.push(REDIRECT_PATH.HOME);

@@ -12,7 +12,7 @@ export const TEN = 10;
 
 export const JWT = {
   SECRET_KEY: "nguyen.dh",
-  EXPIRES_IN: "2h",
+  EXPIRES_IN: "1h",
   REFRESH_TOKEN_TYPE: "refresh",
 };
 

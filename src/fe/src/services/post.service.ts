@@ -1,5 +1,9 @@
 import axiosClient from "@src/lib/axiosClient";
-import { GetPostParams, GetPostResponse } from "@src/types/api";
+import {
+  CreatePostRequest,
+  GetPostParams,
+  GetPostResponse,
+} from "@src/types/api";
 import { API_URLS } from "@src/constants/api";
 // eslint-disable-next-line import/named
 import { QueryFunctionContext } from "@tanstack/react-query";
@@ -16,6 +20,14 @@ export const getPost = async ({
       params: { page: pageParam, limit },
     });
     return data;
+  } catch (error) {
+    throw (error as any)?.response?.data?.message;
+  }
+};
+
+export const createPost = async (payload: CreatePostRequest) => {
+  try {
+    await axiosClient.post(API_URLS.CREATE_POST, payload);
   } catch (error) {
     throw (error as any)?.response?.data?.message;
   }

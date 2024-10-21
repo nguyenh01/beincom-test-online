@@ -1,6 +1,9 @@
-import { Button, Form, Input, Typography } from "antd";
+import { Button, Form, type FormProps, Input, Typography } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import BlockContainer from "@src/pages/components/Shared/BlockContainer";
+import { CreatePostRequest } from "@src/types/api";
+import { FunctionComponent } from "react";
+import { useForm } from "antd/lib/form/Form";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -10,12 +13,28 @@ interface FieldType {
   content: string;
 }
 
-const PostForm = () => {
+interface PostFormProps {
+  onCreatePost: (payload: CreatePostRequest) => void;
+  isPostLoading: boolean;
+}
+
+const PostForm: FunctionComponent<PostFormProps> = ({
+  onCreatePost,
+  isPostLoading,
+}) => {
+  const [form] = useForm();
+  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+    onCreatePost(values);
+    form.resetFields();
+  };
+
   return (
     <BlockContainer>
       <Form
+        form={form}
         autoComplete="off"
         layout="vertical"
+        onFinish={onFinish}
       >
         <Form.Item<FieldType>
           label="Post Title"
@@ -24,7 +43,6 @@ const PostForm = () => {
         >
           <Input
             className="w-full"
-            type="email"
             size="large"
           />
         </Form.Item>
@@ -42,6 +60,7 @@ const PostForm = () => {
             size="large"
             type="primary"
             htmlType="submit"
+            loading={isPostLoading}
           >
             <div className="flex items-center gap-4">
               <Text className="!text-white font-medium">Post</Text>

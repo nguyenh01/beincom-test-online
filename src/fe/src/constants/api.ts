@@ -7,6 +7,7 @@ export const API_URLS = {
   LOGIN: buildUrl("/login"),
   LOGOUT: buildUrl("/logout"),
   REFRESH_TOKEN: buildUrl("/refresh-token"),
+  GET_USER_INFO: buildUrl("/user-info"),
   GET_POST: buildUrl("/posts"),
   CREATE_POST: buildUrl("/posts"),
   UPDATE_POST: (id: number) => buildUrl(`/posts/${id}`),
